@@ -7,10 +7,12 @@
     </el-row>
 
     <el-row :gutter="24">
-      <el-col  class="container">
+      <el-col class="container">
         <el-row :gutter="24">
-          <el-col class="inBox" v-for="index in 16" :key="index">
-
+          <el-col class="inBox" v-for="(item,index) in board" :key="index" style="padding-left: 0px;padding-right: 0px">
+            <el-row>
+              <el-col :class="`numberCellCommon numberCell${board[index]}`">{{board[index]}}</el-col>
+            </el-row>
           </el-col>
         </el-row>
       </el-col>
@@ -25,21 +27,155 @@
 </template>
 
 <script>
+  import Mock from "mockjs"
+
   export default {
     data() {
       return {
         score: 0,
-        board: [[]],
-
+        board: [],
+        isNewGame: false,
       }
     },
+    computed: {},
+    created() {
+
+
+    },
     mounted() {
-      this.init()
+      let This = this
+      document.onkeyup = function (e) {
+        let key = window.event.keyCode;
+        if (key == 37 || key == 65) {
+
+          if (This.moveLeft()) {
+            This.generateNumber()
+          }
+
+        } else if (key == 38 || key == 87) {
+          alert('up')
+        } else if (key == 39 || key == 68) {
+          alert('right')
+        } else if (key == 40 || key == 83) {
+          alert('down')
+        }
+      };
+      this.newGame();
+
     },
     directives: {},
     methods: {
-      init(){},
+      init() {
+        for (let i = 0; i < 16; i++) {
+          this.board[i] = 0;
+
+        }
+      },
+      generateNumber() {
+        let newSpace = this.newSpace();
+
+        if (newSpace.isNew) {
+          let positionIndex = Mock.Random.natural(0, newSpace.zeroPosition.length - 1);
+          let number = Math.random() < 0.5 ? 2 : 4;
+          //Vue.set(vm.items, indexOfItem, newValue)
+          this.$set(this.board, newSpace.zeroPosition[positionIndex], number)
+          //this.board[newSpace.zeroPosition[positionIndex]] = number;
+        }
+      },
+      newSpace() {
+        let isNew = {isNew: false, zeroPosition: []};
+        this.board.forEach((item, index) => {
+
+          if (item === 0) {
+            isNew.isNew = true;
+            isNew.zeroPosition.push(index)
+          }
+        });
+        return isNew
+      },
+      moveLeft() {
+        console.log('moveLeft')
+        if (this.isMove()) {
+          this.testMove()
+          return true
+        } else {
+          return false
+        }
+
+      },
+      isMove() {
+        console.log('isMove')
+        let canMove = false;
+        this.board.forEach((item, index) => {
+          if (item === 0) {
+            canMove = true
+          }
+          if (index % 4 !== 0 && item !== 0) {
+            console.log(1234)
+            if (this.board[index - 1] === 0 || this.board[index - 1] === this.board[index]) {
+              canMove = true
+            }
+
+          }
+
+        })
+        return canMove
+      },
+      testMove() {
+        console.log('testMove')
+        this.board.forEach((item, index) => {
+
+          if (index % 4 !== 0 && item !== 0) {
+
+            for (let k = Math.floor((index / 4)) * 4; k < index; k++) {
+
+              if (this.board[k] === 0 && this.noBlock(k, index, this.board)) {
+                this.$set(this.board, k, this.board[index]);
+                this.$set(this.board, index, 0);
+                //this.board[index]=0;
+
+              } else if (this.board[k] === this.board[index] && this.noBlock(k, index, this.board)) {
+
+                this.$set(this.board, k, this.board[k] + this.board[index]);
+                this.$set(this.board, index, 0);
+                /*this.board[k] += this.board[index];
+                this.board[index] = 0;*/
+
+              }
+            }
+          }
+
+        })
+
+      },
+      noBlock(colStart, colEnd, list) {
+        for (let i = colStart + 1; i < colEnd; i++) {
+
+          if (list[i] !== 0) {
+            return false
+          }
+
+        }
+        return true
+      },
+
+      /* T(arr,n){
+         n=n%4;
+         if(n===0)return arr;
+         let l = arr.length,d = Math.sqrt(l),tmp = [];
+         for(let i=0;i<d;i+=1)
+           for(let j=0;j<d;j+=1)
+             tmp[d-i-1+j*d] = arr[i*d+j];
+         if(n>1)tmp=this.T(tmp,n-1);
+         console.log(tmp)
+         return tmp;
+       },*/
       newGame() {
+        this.isNewGame = true;
+        this.init();
+        this.generateNumber();
+        this.generateNumber();
+        //console.log(this.board);
       }
     }
   }

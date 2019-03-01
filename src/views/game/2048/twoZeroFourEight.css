@@ -14,4 +14,78 @@
   background-color: #ccc0b3;
   margin-top:20px;
   margin-left: 20px;
+
 }
+.numberCellCommon{
+  border-radius: 6px;
+  font-family: Arial;
+  font-weight: bold;
+  font-size:40px;
+  line-height:100px;
+  text-align: center;
+
+}
+
+.numberCell0{
+ display: none;
+}
+
+.numberCell2{
+  background-color: #eee4da;
+  color: #776e65;
+}
+
+.numberCell4{
+  background-color: #ede0c8;
+  color: #776e65;
+}
+
+.numberCell8{
+  background-color: #f2b179;
+  color: white;
+}
+.numberCell16{
+  background-color: #f59563;
+  color: white;
+}
+.numberCell32{
+  background-color: #f67c5f;
+  color: white;
+}
+.numberCell64{
+  background-color: #f65e3b;
+  color: white;
+}
+.numberCell128{
+  background-color: #edcf72;
+  color: white;
+}
+.numberCell256{
+  background-color: #edcc61;
+  color: white;
+}
+.numberCell512{
+  background-color: #9c0;
+  color: white;
+}
+.numberCell1024{
+  background-color: #33b5e5;
+  color: white;
+}
+.numberCell2048{
+  background-color: #09c;
+  color: white;
+}
+.numberCell4096{
+  background-color: #a6c;
+  color: white;
+}
+.numberCell8192{
+  background-color: #93c;
+  color: white;
+}
+
+
+
+
+
