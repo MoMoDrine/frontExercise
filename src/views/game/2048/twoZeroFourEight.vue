@@ -189,6 +189,6 @@ this.board=this.T(this.board,4-i);
   }
 </script>
 
-<style>
+<style scoped>
   @import url(./twoZeroFourEight.css);
 </style>
