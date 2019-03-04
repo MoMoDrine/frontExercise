@@ -56,12 +56,16 @@
         let key = window.event.keyCode;
         if (key == 37 || key == 65) {
           This.keyAction(0)
+          return false
         } else if (key == 38 || key == 87) {
           This.keyAction(3)
+          return false
         } else if (key == 39 || key == 68) {
           This.keyAction(2)
+          return false
         } else if (key == 40 || key == 83) {
           This.keyAction(1)
+          return false
         }
       };
       this.newGame();
