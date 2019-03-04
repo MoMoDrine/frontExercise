@@ -2,7 +2,7 @@
   <div>
     <el-row :gutter="24">
       <el-col :span="4" :offset="10">
-        <p style="font-size:25px;text-align:center">分数：</p>
+        <p style="font-size:25px;text-align:center">分数：{{score}}</p>
       </el-col>
     </el-row>
 
@@ -18,8 +18,8 @@
       </el-col>
     </el-row>
 
-    <el-row>
-      <el-col>
+    <el-row :gutter="24">
+      <el-col :span="5" :offset="12">
         <el-button @click="newGame()" type="info">新游戏</el-button>
       </el-col>
     </el-row>
@@ -32,12 +32,20 @@
   export default {
     data() {
       return {
-        score: 0,
+        //score: 0,
         board: [],
         isNewGame: false,
       }
     },
-    computed: {},
+    computed: {
+      score(){
+        let sum=0;
+        this.board.forEach(item=>{
+          sum+=item
+        })
+        return sum;
+      }
+    },
     created() {
 
 
