@@ -38,10 +38,10 @@
       }
     },
     computed: {
-      score(){
-        let sum=0;
-        this.board.forEach(item=>{
-          sum+=item
+      score() {
+        let sum = 0;
+        this.board.forEach(item => {
+          sum += item
         })
         return sum;
       }
@@ -55,23 +55,13 @@
       document.onkeyup = function (e) {
         let key = window.event.keyCode;
         if (key == 37 || key == 65) {
-
-          if (This.moveLeft(0)) {
-            This.generateNumber()
-          }
-
+          This.keyAction(0)
         } else if (key == 38 || key == 87) {
-          if (This.moveLeft(3)) {
-            This.generateNumber()
-          }
+          This.keyAction(3)
         } else if (key == 39 || key == 68) {
-          if (This.moveLeft(2)) {
-            This.generateNumber()
-          }
+          This.keyAction(2)
         } else if (key == 40 || key == 83) {
-          if (This.moveLeft(1)) {
-            This.generateNumber()
-          }
+          This.keyAction(1)
         }
       };
       this.newGame();
@@ -79,6 +69,36 @@
     },
     directives: {},
     methods: {
+      keyAction(i) {
+        if (this.moveLeft(i)) {
+          this.generateNumber()
+        }
+        if (!this.isOver()) {
+          alert(`游戏结束，您的分数为${this.score}`);
+        }
+      },
+
+
+      isOver() {
+        let canMove = false;
+        for (let i = 0; i < 4; i++) {
+          let arr = this.T(this.board, i);
+          arr.forEach((item, index) => {
+            if (item === 0) {
+              canMove = true
+            }
+            if (index % 4 !== 0 && item !== 0) {
+              if (arr[index - 1] === 0 || arr[index - 1] === arr[index]) {
+                canMove = true
+              }
+
+            }
+
+          })
+        }
+
+        return canMove
+      },
       init() {
         for (let i = 0; i < 16; i++) {
           this.board[i] = 0;
@@ -117,14 +137,13 @@
 
       },
       isMove(i) {
-       this.board=this.T(this.board,i);
-       let canMove = false;
+        this.board = this.T(this.board, i);
+        let canMove = false;
         this.board.forEach((item, index) => {
           if (item === 0) {
             canMove = true
           }
           if (index % 4 !== 0 && item !== 0) {
-
             if (this.board[index - 1] === 0 || this.board[index - 1] === this.board[index]) {
               canMove = true
             }
@@ -132,6 +151,9 @@
           }
 
         })
+        if (!canMove) {
+          this.board = this.T(this.board, 4 - i);
+        }
         return canMove
       },
       testMove(i) {
@@ -159,8 +181,8 @@
           }
 
         })
-this.board=this.T(this.board,4-i);
-        console.log(this.board)
+        this.board = this.T(this.board, 4 - i);
+
       },
       noBlock(colStart, colEnd, list) {
         for (let i = colStart + 1; i < colEnd; i++) {
@@ -173,19 +195,19 @@ this.board=this.T(this.board,4-i);
         return true
       },
 
-       T(arr,n){
-        console.log(arr);
-         n=n%4;
-         console.log(n)
-         if(n===0)return arr;
-         let l = arr.length,d = Math.sqrt(l),tmp = [];
-         for(let i=0;i<d;i+=1)
-           for(let j=0;j<d;j+=1)
-             tmp[d-i-1+j*d] = arr[i*d+j];
-         if(n>1)tmp=this.T(tmp,n-1);
-         console.log(tmp)
-         return tmp;
-       },
+      T(arr, n) {
+
+        n = n % 4;
+
+        if (n === 0) return arr;
+        let l = arr.length, d = Math.sqrt(l), tmp = [];
+        for (let i = 0; i < d; i += 1)
+          for (let j = 0; j < d; j += 1)
+            tmp[d - i - 1 + j * d] = arr[i * d + j];
+        if (n > 1) tmp = this.T(tmp, n - 1);
+
+        return tmp;
+      },
       newGame() {
         this.isNewGame = true;
         this.init();
