@@ -1,12 +1,12 @@
 <template>
   <div>
-    <el-row :gutter="24">
+    <el-row :gutter="24" >
       <el-col :span="4" :offset="10">
         <p style="font-size:25px;text-align:center">分数：{{score}}</p>
       </el-col>
     </el-row>
 
-    <el-row :gutter="24">
+    <el-row :gutter="24" v-loading="loading">
       <el-col class="container">
         <el-row :gutter="24">
           <el-col class="inBox" v-for="(item,index) in board" :key="index" style="padding-left: 0px;padding-right: 0px">
@@ -32,7 +32,7 @@
   export default {
     data() {
       return {
-        //score: 0,
+        loading: false,
         board: [],
         isNewGame: false,
       }
@@ -54,16 +54,16 @@
       let This = this
       document.onkeyup = function (e) {
         let key = window.event.keyCode;
-        if (key == 37 || key == 65) {
+        if ((key == 37 || key == 65)&& This.loading===false) {
           This.keyAction(0)
           return false
-        } else if (key == 38 || key == 87) {
+        } else if ((key == 38 || key == 87)&& This.loading===false) {
           This.keyAction(3)
           return false
-        } else if (key == 39 || key == 68) {
+        } else if ((key == 39 || key == 68)&& This.loading===false) {
           This.keyAction(2)
           return false
-        } else if (key == 40 || key == 83) {
+        } else if ((key == 40 || key == 83)&& This.loading===false) {
           This.keyAction(1)
           return false
         }
@@ -78,10 +78,12 @@
           this.generateNumber()
         }
         if (!this.isOver()) {
+
           this.$alert(`您的总得分为${this.score}`, '游戏结束', {
             confirmButtonText: '重新开始游戏',
             callback: ()=> {
              this.newGame()
+              this.loading=false;
             }
           });
         }
@@ -104,6 +106,9 @@
             }
 
           })
+        }
+        if(!canMove){
+          this.loading=true;
         }
 
         return canMove
