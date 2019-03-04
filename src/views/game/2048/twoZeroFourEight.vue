@@ -48,16 +48,22 @@
         let key = window.event.keyCode;
         if (key == 37 || key == 65) {
 
-          if (This.moveLeft()) {
+          if (This.moveLeft(0)) {
             This.generateNumber()
           }
 
         } else if (key == 38 || key == 87) {
-          alert('up')
+          if (This.moveLeft(3)) {
+            This.generateNumber()
+          }
         } else if (key == 39 || key == 68) {
-          alert('right')
+          if (This.moveLeft(2)) {
+            This.generateNumber()
+          }
         } else if (key == 40 || key == 83) {
-          alert('down')
+          if (This.moveLeft(1)) {
+            This.generateNumber()
+          }
         }
       };
       this.newGame();
@@ -93,25 +99,24 @@
         });
         return isNew
       },
-      moveLeft() {
-        console.log('moveLeft')
-        if (this.isMove()) {
-          this.testMove()
+      moveLeft(i) {
+        if (this.isMove(i)) {
+          this.testMove(i)
           return true
         } else {
           return false
         }
 
       },
-      isMove() {
-        console.log('isMove')
-        let canMove = false;
+      isMove(i) {
+       this.board=this.T(this.board,i);
+       let canMove = false;
         this.board.forEach((item, index) => {
           if (item === 0) {
             canMove = true
           }
           if (index % 4 !== 0 && item !== 0) {
-            console.log(1234)
+
             if (this.board[index - 1] === 0 || this.board[index - 1] === this.board[index]) {
               canMove = true
             }
@@ -121,8 +126,8 @@
         })
         return canMove
       },
-      testMove() {
-        console.log('testMove')
+      testMove(i) {
+
         this.board.forEach((item, index) => {
 
           if (index % 4 !== 0 && item !== 0) {
@@ -146,7 +151,8 @@
           }
 
         })
-
+this.board=this.T(this.board,4-i);
+        console.log(this.board)
       },
       noBlock(colStart, colEnd, list) {
         for (let i = colStart + 1; i < colEnd; i++) {
@@ -159,8 +165,10 @@
         return true
       },
 
-      /* T(arr,n){
+       T(arr,n){
+        console.log(arr);
          n=n%4;
+         console.log(n)
          if(n===0)return arr;
          let l = arr.length,d = Math.sqrt(l),tmp = [];
          for(let i=0;i<d;i+=1)
@@ -169,7 +177,7 @@
          if(n>1)tmp=this.T(tmp,n-1);
          console.log(tmp)
          return tmp;
-       },*/
+       },
       newGame() {
         this.isNewGame = true;
         this.init();
