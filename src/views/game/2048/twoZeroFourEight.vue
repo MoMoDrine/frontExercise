@@ -74,7 +74,12 @@
           this.generateNumber()
         }
         if (!this.isOver()) {
-          alert(`游戏结束，您的分数为${this.score}`);
+          this.$alert(`您的总得分为${this.score}`, '游戏结束', {
+            confirmButtonText: '重新开始游戏',
+            callback: ()=> {
+             this.newGame()
+            }
+          });
         }
       },
 
