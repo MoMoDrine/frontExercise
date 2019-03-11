@@ -24,6 +24,7 @@
       <el-submenu index="game">
         <template slot="title">游戏中心</template>
         <el-menu-item index="/game/2048">2048</el-menu-item>
+        <el-menu-item index="/game/numberMove">数字华容道</el-menu-item>
         <el-menu-item index="/game/rest">其他游戏</el-menu-item>
       </el-submenu>
       <el-menu-item index="/other">其他</el-menu-item>

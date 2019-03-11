@@ -6,6 +6,7 @@ import activityManagement from '../views/activity/management/index'
 import second from '../views/dashboard/second'
 import workItem from '../views/workItem/workItem'
 import twoZeroFourEight from '../views/game/2048/twoZeroFourEight'
+import numberMove from '../views/game/number-move/number-move'
 import rest from '../views/game/rest'
 import other from '../views/other'
 Vue.use(Router)
@@ -50,6 +51,11 @@ export default new Router({
               path: '2048',
               name: '2048',
               component: twoZeroFourEight
+            },
+            {
+              path: 'numberMove',
+              name: 'numberMove',
+              component: numberMove
             },
             {
               path: 'rest',
