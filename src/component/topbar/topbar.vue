@@ -45,7 +45,7 @@
 
 <style scoped>
 .top{
-  width:calc(100%);
+  width:calc(110%);
   padding:0px 0px
 }
 </style>
